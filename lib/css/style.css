@@ -1,0 +1,22 @@
+
+#home
+{
+	margin-top: 73px;
+}
+
+#home,#about,#contact,#syllabus
+{
+	color: grey;
+}
+
+#getStarted{
+	 position: absolute;
+	 left: 413px; 
+	 top: 350px; 
+}
+
+#carouse{
+	 position: relative;
+}
+
+
