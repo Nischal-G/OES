@@ -4,9 +4,14 @@
 	<title></title>
 </head>
 <body>
-	<div class="container">
-		<p>shsdgfvdac</p>
-		<h2>hvfbasha</h2>
-	</div>
+	
+	<?php
+         $array = array( 1, 2, 3, 4, 5);
+         
+         foreach( $array as $value ) {
+            echo "Value is $value <br />";
+         }
+      ?>
+
 </body>
 </html>

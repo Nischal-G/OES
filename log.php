@@ -6,6 +6,7 @@ include('connection.php');
 	{
 
 		$con=makeconnection();
+		
 		$sql="SELECT * FROM user WHERE password='".$_POST['password']."' AND (email='".$_POST['userName']."' OR user_name='".$_POST['userName']."')";
 		$query=mysqli_query($con,$sql);
 		$row=mysqli_num_rows($query);

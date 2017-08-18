@@ -57,14 +57,9 @@ session_start();
 					    <input type="password" class="form-control" id="password" name="password" required>
 			 	</div>
 				  <button id="sign" type="submit" name="btnSignUp" class="btn btn-default btn-block" style="background-color: grey"  >Create My Account</button>
-		<!-- 		  <script type="text/javascript">
-    					document.getElementById("sign").onclick = function () {
-       		 				location.href = "signup.php";
-    					};
 					</script> -->
 				  <p>Already have a account?
 				  <a href="<?=$base_url?>/login.php">Login</a>
-
 
 	      </div>
 	      <div class="modal-footer">
@@ -132,7 +127,7 @@ session_start();
 				<div align="center"><?=$_SESSION['loginError'];?></div>
 			</div>
 		<?php endif; $_SESSION['loginError']=null;?>
-	<!-- For Susess value -->
+	<!-- For Success value -->
 		<?php 
 		if(!isset($_SESSION['loginOk'])==null):?>
 			<div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -255,8 +250,8 @@ session_start();
 						</div>
 					</div>
 				</div>
-		</div>
-	</div><br>
+			</div>
+		</div><br>
 
 <!-- feedback carousel -->
 

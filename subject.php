@@ -1,4 +1,8 @@
-<?php include 'global.php';?>
+<?php 
+include 'connection.php'; 
+include 'global.php';
+session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +44,7 @@
           <button type="button" class="btn btn-sm"  data-toggle="modal" id="logout" >LogOut</button>
           <script type="text/javascript">
     					document.getElementById("logout").onclick = function () {
-       						location.href = "index.php";
+       							location.href= "index.php";
     					 };
 					</script>
 
@@ -62,49 +66,84 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<!-- <div class="col-md-4"></div>
-		
-		<div class="col-md-4">
-			<br><br><h3 style="text-align: center;">Choose Exam</h3><br><br><br>
-			<button type="button" class="btn btn-lg btn-block" data-toggle="modal" id="mul"> Multiple Choice Questions </button>
-				 <script type="text/javascript">
-    					document.getElementById("mul").onclick = function () {
-       						location.href = "exam.php";
-    					 };
-					</script>
-			<br><br><br>
-			<button type="button" class="btn btn-lg btn-block" data-toggle="modal" id="word"> Word Questions </button>
-				 <script type="text/javascript">
-    					document.getElementById("word").onclick = function () {
-       						location.href = "exam.php";
-    					 };
-					</script>
-		</div>
-
-		<div class="col-md-4"></div> -->
 		<div class="col-md-12">
 			<br><div class="panel panel-default">
 			  <div class="panel-heading">
-			  <!-- 	<h4 style="margin-left: 50px;">
-			  		<p><b>User name:</b></p> <br>
-			  		<p><b>Roll No.:</b></p>
-			  	</h4> --></div>
-			  <div class="panel-body">
-					<h1 style="text-align: center;">Choose Exam</h1><br>
-			<button type="button" class="btn btn-lg btn-block" data-toggle="modal" id="mul"> Multiple Choice Questions </button>
-				 <script type="text/javascript">
-    					document.getElementById("mul").onclick = function () {
-       						location.href = "multiple.php";
-    					 };
-					</script>
-			<br><br>
-			<button type="button" class="btn btn-lg btn-block" data-toggle="modal" id="word"> Word Questions </button>
-				 <script type="text/javascript">
-    					document.getElementById("word").onclick = function () {
-       						location.href = "word.php";
-    					 };
-					</script>
 			  </div>
+
+			  <form method="post" action="multiple.php">
+			  <div class="panel-body">
+
+					<h1 style="text-align: center;">Choose Exam</h1><br>
+
+				
+					<div id="mul">
+						<button type="button" class="btn-group btn-sm btn-group-justified" onclick="gSubject()"><h4>Multiple Choice Questions</h4> </button>
+							<script type="text/javascript">
+								function gSubject(){
+									document.getElementById("multipleChoice").style.display="";
+									document.getElementById("word").style.display="none";
+								}
+
+							</script>
+							<br>
+					</div>
+
+					<div class="row" id="multipleChoice" style="display: none;">
+					<h4>
+						<div class="col-md-offset-5">
+							<div class="radio-inline">
+							  <label><input type="radio" name="subject" id="option1" value="mbbs" required="">Mbbs</label>
+							</div>
+
+			   				<div class="radio-inline">
+							  <label><input type="radio" name="subject" id="option1" value="csit" >Csit</label>
+							</div>
+
+			   				<div class="radio-inline">
+							  <label><input type="radio" name="subject" id="option1" value="engineering" >Engineering</label>
+							</div>
+						</div>
+					</h4>
+					</div>
+
+					<div id="word">
+						<button type="button" class="btn-group btn-sm btn-group-justified" onclick="geSubject()"><h4>Word Questions</h4></button>
+							<script type="text/javascript">
+								function geSubject(){
+									document.getElementById("wordQues").style.display="";
+									document.getElementById("mul").style.display="none";
+								}
+
+							</script>
+							<br>
+					</div>
+
+					<div class="row" id="wordQues" style="display: none;">
+					<h4>
+						<div class="col-md-offset-5">
+							<div class="radio-inline">
+							  <label><input type="radio" name="subject" id="option1" value="mbbs" required="">Mbbs</label>
+							</div>
+
+			   				<div class="radio-inline">
+							  <label><input type="radio" name="subject" id="option1" value="csit" >Csit</label>
+							</div>
+
+			   				<div class="radio-inline">
+							  <label><input type="radio" name="subject" id="option1" value="engineering" >Engineering</label>
+							</div>
+						</div>
+					</h4>
+					</div>
+					
+					<div>
+						<br>
+						<button type="submit" class="btn-group btn-sm btn-group-justified btn-success" ><h3>START EXAM</h3></button>
+					</div>
+			  	</div>
+			 </form>
+
 		</div>
 	</div>
 </div>
@@ -117,6 +156,7 @@
 		</div>
 	</div>
 </div>
+
 </body>
 
 </html>

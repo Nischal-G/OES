@@ -1,11 +1,9 @@
-
 <?php
 include 'connection.php'; 
 include 'global.php';
 session_start();
-
-	
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,37 +12,16 @@ session_start();
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<?php include 'include/lib.php'; 
-	?>
+	?><!-- 
 	<link rel="stylesheet" href="<?=$base_url?>/lib/css/TimeCircles.css">
-	<script type="text/javascript" src="<?=$base_url?>/lib/js/TimeCircles.js"></script>
-
-<!-- 	<script language="javascript" type="text/javascript">
-		var a;
-      function showentry()
-         {
-         if (window.XMLHttpRequest)
-            {// code for IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp=new XMLHttpRequest();
-            }
-         else
-            {// code for IE6, IE5
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-            }
-        xmlhttp.onreadystatechange=function()
-            {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200)
-               {
-                  document.getElementById("question").innerHTML=xmlhttp.responseText;
-               }
-            }
-        xmlhttp.open("GET","question.php",true);//whatever the contents of file                                       details.php displayed in right div
-        xmlhttp.send();
-        }
-       </script> -->
+	<script type="text/javascript" src="<?=$base_url?>/lib/js/TimeCircles.js"></script> -->
 
 </head>
 
+
 <body style="background-color: #e6e3ee">
+
+
 
 <!--nav bar starts-->
 
@@ -67,18 +44,13 @@ session_start();
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-      <ul class="nav navbar-nav ">
-         <li><a href="#home">Home</a></li>
-        <li><a href="#feature">Features</a></li>
-        <li><a href="#syllabus">Syllabus</a></li>
-      </ul>
 
       <form class="navbar-form navbar-right">
        
           <a href="logout.php" class="btn btn-default">Logout</a>
-          <button type="button" class="btn btn-success" onclick="location.reload();">
+          <!-- <button type="button" class="btn btn-success" onclick="location.reload();">
           		<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh
-          </button>
+          </button> -->
           <!-- <script type="text/javascript">
     					document.getElementById("logout").onclick = function () {
        						location.href = "index.php";
@@ -91,7 +63,10 @@ session_start();
   </div><!-- /.container-fluid -->
 </nav>
 
-<!-- Header starts -->
+
+<!-- container begins -->
+
+<!-- container ends -->
 
 <div class="container-fluid">
 	<div class="row">
@@ -99,190 +74,208 @@ session_start();
 			<h2 style="text-align: center;">Welcome our valuable users</h2>
 			<p style="text-align: center;">You can select the subject of your field from the subject list and practice</p>
 			<h3 style="text-align: center;">Feel free to learn</h3>
-		</div>
-	</div>
-</div>
 
-<!-- Container starts -->
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-3">
-			<h3 class="text-center" style="background-color: grey;padding: 7px;">
-				<span id="notification"></span>
-			</h3>
-			<div class="list-group text-center">
-			  <!-- <a href="#" class="list-group-item">BSc. CSIT</a>
-			  <a href="#" class="list-group-item">MBBS</a>
-			  <a href="#" class="list-group-item">Engineering</a> -->
-			</div>
-			<div class="text-center list-group-item">
-				<button class="btn btn-success btn-lg" id="hide">
-					<span class="glyphicon glyphicon-road" aria-hidden="true"></span>
-					Start
-				</button>
-				
-            <div id="CountDownTimer" data-timer="300" ></div>
-				<script>
-					$(document).ready(function(){
-						$("#notification").text("Press Start for Exam");
-						$("#CountDownTimer").hide();
-					    $("#hide").click(function(){
-					    	alert("Timer has been started");
-					    	$("#notification").text("Time Remananing");
-					        $("#hide").hide();
-					        $("#CountDownTimer").show();
-					        $("#CountDownTimer").TimeCircles({ time: { Days: { show: false }, Hours: { show: false } }});
-					    });
-					});
-				</script>
-				
-				<!-- <h2 id="time"></h2>
-				<script>
-					// Set the date we're counting down to
-					var countDownDate = new Date("Jan 5, 2018 15:06:30").getTime();
+			<div class="row">
+				<div class="col-md-3"><br>
+					<div class="panel text-center">
+						  <!-- Default panel contents -->
+						  <div class="panel-heading" style="background-color: grey">
+						  	<h4>Time Remaining</h4>
+						  </div>
+						  <div class="panel-body">
+						      <div id="questions">
+							        <div id="set_1" class="questions"></div>
+							        <div id="set_2" class="questions"></div>
+							        <div id="set_3" class="questions"></div>
+							        <div id="set_4" class="questions"></div>
+							        <div id="set_5" class="questions"></div>
+							        <div id="time" class="time">05:00</div>
+							    </div>
+							    <div id="click" onclick="location.reload();">
+							        <div id="spinner"></div>
+							    </div>
+						    <script language="javascript">
+						        // change questions here -- in quotes, comma separated
+						        function setUP() {
+						            var questionSets = [
+						            ];
 
-					// Update the count down every 1 second
-					var x = setInterval(function() {
+						            for (var setIndex = 0; setIndex < questionSets.length; ++setIndex) {
+						                var questionSet = questionSets[setIndex];
+						                var questionIndex = Math.floor(Math.random() * questionSet.length);
+						                var question = questionSet[questionIndex];
+						                var selector = '#questions div:nth-child(' + (setIndex + 1).toString() + ')';
+						                document.querySelector(selector).innerHTML = question;
+						                //alternative method follows -- comment out above two lines, uncomment below two lines
+						                //var setId = 'set_' + (setIndex + 1).toString();
+						                //document.getElementById(setId).innerHTML = question;
+						            }
+						        }
 
-					  // Get todays date and time
-					  var now = new Date().getTime();
+						        function showQuestions() {
+						            document.getElementById('spinner').style.display = "none";
+						            document.getElementById('click').style.display = "none";
+						            document.getElementById('questions').style.display = "block";
 
-					  // Find the distance between now an the count down date
-					  var distance = countDownDate - now;
+						        }
 
-					  // Time calculations for days, hours, minutes and seconds
-					  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-					  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+						        function showSpinner() {
+						            document.getElementById('questions').style.display = "none";
+						            document.getElementById('click').style.display = "block";
+						            document.getElementById('spinner').style.display = "block";
+						        }
 
-					  // Display the result in the element with id="demo"
-					  document.getElementById("time").innerHTML =minutes + "m " + seconds + "s ";
+						        function startTimer(duration, display) {
+						            var timer = duration,
+						                minutes, seconds;
+						            setInterval(function() {
+						                minutes = parseInt(timer / 60, 10);
+						                seconds = parseInt(timer % 60, 10);
 
-					  // If the count down is finished, write some text 
-					  if (distance < 0) {
-					    clearInterval(x);
-					    document.getElementById("time").innerHTML = "EXPIRED";
-					  }
-					}, 1000);
-					</script> -->
-			</div>
-		</div>
+						                minutes = minutes < 10 ? "0" + minutes : minutes;
+						                seconds = seconds < 10 ? "0" + seconds : seconds;
 
-			<!-- Question section-->
+						                display.textContent = minutes + ":" + seconds;
 
-		<div class="col-md-9">
-			<br><div class="panel panel-default">
-			  <div class="panel-heading">
-			  	<h4 style="margin-left: 50px;">
-			  		<p><b>Candiate Name: <?=$_SESSION['fullName']?></b></p> <br>
-			  		<p><b>Roll No.: <?=$_SESSION['userId']?></b></p>
-			  	</h4></div>
-			  <div class="panel-body">
-				<form>
-				<div id="question">
-					<div class="col-md-12">
-			  			<h2>
-			  			<?php
-			  										
+						                if (--timer < 0) {
+						                    timer = 0;
+						                    document.getElementById('time').style.backgroundColor = "red";
+						                    alert("Exam time Finished.");
+						                    location.href="result.php";
+						                }
+						            }, 1000);
+						        }
 
-			$sql="SELECT qid,question,ans1,ans2,ans3,ans4,correct_ans FROM physics ORDER BY RAND() LIMIT 1";
+						        window.onload = function() {
+						            setUP();
+						            showQuestions();
+						            var minutesLeft = 299, //Change to minutes you need -- counted in seconds -- minus one second 
+						                display = document.querySelector('#time');
+						            startTimer(minutesLeft, display);
+						                        document.getElementById('questions').onclick = setUP;
+						                        document.getElementById('questions').onclick = showSpinner;
 
-		$result = $connection->query($sql);
 
-			if ($result->num_rows > 0) {
-			    // output data of each row
-			    while($row = $result->fetch_assoc()) {
-			        // echo "qid: " . $row["qid"]. " - Question: " . $row["question"]. "answer1" . $row["ans1"]."answer2".$row["ans2"]."answer3".$row["ans3"]."answer4".$row["ans4"]."correct answer".$row["correct_ans"]. "<br>"; 
-			      
-			       		 	$question=$row["question"];
-					       $answer1=$row["ans1"];
-					       $answer2=$row["ans2"];
-					       $answer3=$row["ans3"];
-					       $answer4=$row["ans4"];
-					       $correct_answer=$row["correct_ans"];
-					       echo $question ;?>
+						        };
+						    </script>
+						  </div>
+					</div>
+				</div>
 
+				<div class="col-md-9">
+					<br><div class="panel panel-default">
+
+				  <div class="panel-heading">
+				  	<h4 style="margin-left: 50px;">
+				  		<p><b>Candiate Name: <?=$_SESSION['fullName']?></b></p> <br>
+				  		<p><b>Roll No.: <?=$_SESSION['userId']?></b></p>
+				  	</h4></div>
+
+				  <div class="panel-body">
+					
+					<div id="question">
+						<div class="col-md-12">
+				  			<h2>
+					  	<?php
+					  		$sub=$_POST['subject'];
+				  			$connection=makeconnection();								
+
+							$sql="SELECT qid,question,ans1,ans2,ans3,ans4,correct_ans FROM $sub ORDER BY RAND() LIMIT 1";
+
+								$result = $connection->query($sql);
+
+							if ($result->num_rows > 0) {
+							    // output data of each row
+							    while($row = $result->fetch_assoc()) {
+					      
+					       		 	$question=$row["question"];
+							       $answer1=$row["ans1"];
+							       $answer2=$row["ans2"];
+							       $answer3=$row["ans3"];
+							       $answer4=$row["ans4"];
+							       $correct_answer=$row["correct_ans"];
+							       echo $question ;
+						?>
+
+						</div>
+
+						<div class="col-md-2">
+						  	<div class="radio-inline">
+							  <label><input type="radio" name="answer" id="option1" required><?=$answer1?></label>
 							</div>
-					<div class="col-md-2">
-					  	<div class="radio-inline">
-						  <label><input type="radio" name="answer" id="option1" required><?=$answer1?></label>
 						</div>
-					</div>
 
-					<div class="col-md-2">
-						<div class="radio-inline text-center">
-						  <label><input type="radio" name="answer" id="option2"><?=$answer2?></label>
+						<div class="col-md-2">
+							<div class="radio-inline text-center">
+							  <label><input type="radio" name="answer" id="option2"><?=$answer2?></label>
+							</div>
 						</div>
-					</div>
-					
-					<div class="col-md-2">
-						<div class="radio-inline">
-						  <label><input type="radio" name="answer" id="option3"><?=$answer3?></label>
+						
+						<div class="col-md-2">
+							<div class="radio-inline">
+							  <label><input type="radio" name="answer" id="option3"><?=$answer3?></label>
+							</div>
 						</div>
-					</div>
-					
-					<div class="col-md-2">
-						<div class="radio-inline">
-						  <label><input type="radio" name="answer" id="option4"><?=$answer4?></label>
-					</div>
-			       
-			    
-			   <?php }
-			} else {
-			    echo "0 results";
-			}
-		
+						
+						<div class="col-md-2">
+							<div class="radio-inline">
+							  <label><input type="radio" name="answer" id="option4"><?=$answer4?></label>
+						</div>
+					       
+					    
+					   <?php }
+					} else {
+					    echo "0 results";
+					}
+				
 
-			  			?>
-							
-								
+					  	?>
+									
+										
 			  			</h2><br><hr>
 					
 					</div>
 					</div><br><hr>
 			
-						<button id="next" type="submit" class="btn-group btn-sm btn-group-justified"  data-toggle="modal" value="show" onclick="showentry()">Next (<?=$_SESSION['rollNo']?>)</button>
-						<script type="text/javascript">
-							$('#foo').submit(function(event){
-							  $.ajax({
-							    url: 'multiple.php',
-							    type: 'post',
-							    dataType:'html',   //expect return data as html from server
-							   data: $('#foo').serialize(),
-							   success: function(response, textStatus, jqXHR){
-							      $('#question').html(response);   //select the id and put the response in the html
-							    },
-							   error: function(jqXHR, textStatus, errorThrown){
-							      console.log('error(s):'+textStatus, errorThrown);
-							   }
-							 });
-							 });
-						</script>
-					
-				</form>
-			  </div>
+						<button id="next" type="submit" class="btn-group btn-success btn-sm btn-group-justified"  data-toggle="modal" onclick="showCustomer(this.value)" value="1">Next</button>
+							<script>
+								function showCustomer(str) {
+								var xhttp;    
+								if (str == ""){
+								  document.getElementById("txtHint").innerHTML = "";
+								  return;
+								}
+								xhttp = new XMLHttpRequest();
+								xhttp.onreadystatechange = function() {
+								if (this.readyState == 4 && this.status == 200) {
+								     document.getElementById("question").innerHTML = this.responseText;
+								    }
+								};
+								xhttp.open("GET", "question.php?q="+str, true);
+								xhttp.send();
+								}
+							</script>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
 </div>
 
-<!--footer -->
-<div class="container-fluid" id="footer" style="background-color: black">
+
+<!--footer begins -->
+
+<footer class="container-fluid" id="footer" style="background-color: black">
 	<div class="row">
 		<div class="col-md-12">
 			<br>
 			<p class="text-center v-center" style="color: white">All rights reserved. Copyright @OES team. Team Online Examination System 2017</p><br>
 		</div>
-		<!-- <div class="col-md-6">
-			<a href="#" class="fa fa-facebook"></a>
-			<a href="#" class="fa fa-twitter"></a>
-		</div> -->
-	</div>
-</div>
-
-<?php
-			
-?>	
-
 		
+	</div>
+</footer>
+
 </body>
 </html>

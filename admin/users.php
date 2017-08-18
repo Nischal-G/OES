@@ -1,7 +1,4 @@
-<?php 
-  include 'admin_sql.php'
 
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <title>Admin Area | Questions  </title>
+    <title>Admin Area | Users  </title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -43,7 +40,7 @@
 
            <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Welcome Nischal</a></li>
-            <li><a href="../login.php">Logout</a></li>
+            <li><a href="login.php">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -53,7 +50,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-10">
-            <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Questions <small>Manage Questions </small></h1>
+            <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Users <small>Manage Users </small></h1>
           </div>
           <div class="col-md-2">
             <div class="dropdown create">
@@ -62,7 +59,7 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a type="button" data-toggle="modal" data-target="#addQuestions">Add Questions</a></li>
+                <li><a type="button" data-toggle="modal" data-target="#addUsers">Add Users</a></li>
               </ul>
             </div>
           </div>
@@ -74,7 +71,7 @@
       <div class="container">
         <ol class="breadcrumb">
         <li><a href="index.html">Dashboard</a></li>
-          <li class="active">Questions</li>
+          <li class="active">Users</li>
         </ol>
       </div>
     </section>
@@ -100,113 +97,73 @@
 
             <div class="panel panel-default">
               <div class="panel-heading" style="background-color: grey">
-                <h3 class="panel-title">Questions</h3>
+                <h3 class="panel-title">Users</h3>
               </div>
               <div class="panel-body">
                 <table class="table table-striped table-hover">
                 <tr>
                   <th>Id</th>
-                  <th style="width: 30%">Question</th>
-                  <th>Option 1</th>
-                  <th>Option 2</th>
-                  <th>Option 3</th>
-                  <th>Option 4</th>
-                  <th>Right Answer</th>
+                  <th style="width: 30%">User Name</th>
+                  <th>Email</th>
                   <th></th>
                 </tr>
 
                 <tr>
                   <td>1</td>
-                  <td>df</td>
-                  <td>dsad</td>
-                  <td>sds</td>
-                  <td>jdsba</td>
-                  <td>jdsba</td>
-                  <td>jdsba</td>
-                    <td><button type="button" class="btn btn-xs" data-toggle="modal" data-target="edit.phps">Edit</button>
-                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#signupModal">Delete</button></td>
+                  <td>Ram</td>
+                  <td>ram@ram.com</td>
+                  <td>
+                    <button type="button" class="btn btn-xs" data-toggle="modal" data-target="edit.php">Edit</button>
+                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#signupModal">Delete</button>
+                  </td>
                 </tr>
 
               </table>
               </div>
             </div>
-
-          <!--Latest Users -->
-
-  
-
           </div>
         </div>
       </div>
     </section>
 
-    <footer id="footer">
-      <p>Copyright OES, &copy; 2017</p>
-    </footer>
+<footer id="footer">
+  <p>Copyright OES, &copy; 2017</p>
+</footer>
 
 <!--Modals-->
 
 <!--Add Question Modal-->
-    <div class="modal fade" id="addQuestions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="addUsers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
         
-        <form method="POST">
+        <form>
 
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Add Questions</h4>
+            <h4 class="modal-title" id="myModalLabel">Add Admin</h4>
           </div>
          
           <div class="modal-body">
 
             <div class="form-group">
-              <label>Add Questions</label>
-              <input type="text" class="form-control" name="question" placeholder="Type here" required>
+              <label>Admin Name</label>
+              <input type="text" class="form-control" name="user" placeholder="Enter user name" required>
             </div>
 
             <div class="form-group">
-              <label>Option 1</label>
-              <input type="text" class="form-control" name="ans1" placeholder="Add Option 1"  required>
+              <label>Password</label>
+              <input type="password" class="form-control" name="pwd" required>
             </div>
 
-            <div class="form-group">
-              <label>Option 2</label>
-              <input type="text" class="form-control" name="ans2" placeholder="Add Option 2"  required>
-            </div>
-
-            <div class="form-group">
-              <label>Option 3</label>
-              <input type="text" class="form-control" name="ans3" placeholder="Add Option 3"  required>
-            </div>
-
-            <div class="form-group">
-              <label>Option 4</label>
-              <input type="text" class="form-control" name="ans4" placeholder="Add Option 4"  required>
-            </div>
-
-            <div class="form-group">
-              <label>Right Answer</label>
-              <input type="text" class="form-control" name="correct_ans" placeholder="Add correct answer"  required>
-            </div>
-
-            <div class="checkbox-inline myCheck" >
-              <label><input type="checkbox" value="csit" required>BSc CSIT</label>
-            </div>
-            <div class="checkbox-inline myCheck">
-              <label><input type="checkbox" value="mbbs">MBBS</label>
-            </div>
-            <div class="checkbox-inline myCheck">
-              <label><input type="checkbox" value="engineering">Engineering</label>
-            </div>
           
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success" onclick="validateForm()">Save changes</button>
+            <button type="submit" class="btn btn-success" id="memberType">Save changes</button>
           </div>
             <script type="text/javascript">
                       function validateForm() {
-                         var x=document.getElementById("myCheck").checked;
+                         var x=document.getElementById("typeCheck").checked;
                           if (x == true && ($_POST['ans1']==$_POST['correct_ans'] || $_POST['ans2']==$_POST['correct_ans'] || $_POST['ans3']==$_POST['correct_ans'] || $_POST['ans4']==$_POST['correct_ans']))
                           {
                               insertIntoDb();

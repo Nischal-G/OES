@@ -9,6 +9,6 @@ function makeconnection()
 		}
 		return $connection;
 }
-	$connection=mysqli_connect("localhost", "root","","Online_Exam");
+	//$connection=mysqli_connect("localhost", "root","","Online_Exam");
 
 ?>
