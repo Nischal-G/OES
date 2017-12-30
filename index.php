@@ -1,6 +1,8 @@
 
-<?php include 'global.php';
-session_start();
+<?php 
+	include 'global.php';
+	include 'connection.php';
+	session_start();
 ?>
 
 <!DOCTYPE html>
@@ -22,12 +24,12 @@ session_start();
 	    <!-- Modal content-->
 	    <div class="modal-content"  >
 		<form method="post" action="log.php">
-	      <div class="modal-header">
+	      <div class="modal-header" style="background-color: #d8cbcb">
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
-		        <h4 class="modal-title">Sign Up</h4>
+		        <h4 class="modal-title">Register a account</h4>
 	      </div>
 
-	      <div class="modal-body">
+	      <div class="modal-body" style="background-color: #d8cbcb">
 		      	<div class="row">
 		      		<div class="col-md-6">
 		      			<div class="form-group">
@@ -56,13 +58,13 @@ session_start();
 					    <label for="pwd">Password:</label>
 					    <input type="password" class="form-control" id="password" name="password" required>
 			 	</div>
-				  <button id="sign" type="submit" name="btnSignUp" class="btn btn-default btn-block" style="background-color: grey"  >Create My Account</button>
-					</script> -->
+				  <button id="sign" type="submit" name="btnSignUp" class="btn btn-default btn-block" style="background-color: #aea8a8"  >Create My Account</button>
+					</script>
 				  <p>Already have a account?
 				  <a href="<?=$base_url?>/login.php">Login</a>
 
 	      </div>
-	      <div class="modal-footer">
+	      <div class="modal-footer" style="background-color: #d8cbcb">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	      </div>
 	      </form>
@@ -79,12 +81,12 @@ session_start();
 	    <!-- Modal content-->
 	    <div class="modal-content"  >
 		<form method="POST" action="log.php">
-	      <div class="modal-header">
+	      <div class="modal-header" style="background-color: #d8cbcb">
 		        <button type="button" class="close" data-dismiss="modal">&times;</button>
 		        <h4 class="modal-title">Login</h4>
 	      </div>
 
-	      <div class="modal-body">
+	      <div class="modal-body"  style="background-color: #d8cbcb">
 
 	        	<div class="form-group">
 					    <label for="name">Username or Email: </label>
@@ -95,11 +97,11 @@ session_start();
 					    <label for="password">Password:</label>
 					    <input type="password" name="password" class="form-control" id="logInPass" required>
 			 	</div>
-				  <button name="btnLogin" type="submit" class="btn btn-default btn-block" style="background-color: grey">Login</button>
+				  <button name="btnLogin" type="submit" class="btn btn-default btn-block" style="background-color: #aea8a8">Login</button>
 
 
 	      </div>
-	      <div class="modal-footer">
+	      <div class="modal-footer" style="background-color: #d8cbcb">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	      </div>
 	      </form>
@@ -117,6 +119,8 @@ session_start();
 <!-- For login Error -->
 <div class="row">
 	<div class="col-md-12">
+
+
 	<!-- For Error value -->
 		<?php 
 		if(!isset($_SESSION['loginError'])==null):?>
@@ -127,16 +131,42 @@ session_start();
 				<div align="center"><?=$_SESSION['loginError'];?></div>
 			</div>
 		<?php endif; $_SESSION['loginError']=null;?>
+
+		<!-- For error feedback -->
+		<?php 
+		if(!isset($_SESSION['signUpError'])==null):?>
+			<div class="alert alert-danger alert-dismissible fade in" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+				<div align="center"><?=$_SESSION['signUpError'];?></div>
+			</div>
+		<?php endif; $_SESSION['signUpError']=null;?>
+
+
 	<!-- For Success value -->
 		<?php 
-		if(!isset($_SESSION['loginOk'])==null):?>
+		if(!isset($_SESSION['signUpOk'])==null):?>
 			<div class="alert alert-success alert-dismissible fade in" role="alert">
 			<button type="button" class="close" data-dismiss="alert" aria-label="close">
 				<span aria-hidden="true">&times;</span>
 			</button>
-				<div align="center"><?=$_SESSION['loginOk'];?></div>
+				<div align="center"><?=$_SESSION['signUpOk'];?></div>
 			</div>
-		<?php endif; $_SESSION['loginOk']=null;?>
+		<?php endif; $_SESSION['signUpOk']=null;?>
+
+
+		<!-- For success feedback -->
+		<?php 
+		if(!isset($_SESSION['btnFeedbackOk'])==null):?>
+			<div class="alert alert-success alert-dismissible fade in" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+				<div align="center"><?=$_SESSION['btnFeedbackOk'];?></div>
+			</div>
+		<?php endif; $_SESSION['btnFeedbackOk']=null;?>
+
 	</div>
 </div>
 	<div class="container-fluid text-center"  style="background-color: black">
@@ -161,27 +191,33 @@ session_start();
 				  <!-- Wrapper for slides -->
 					  <div class="carousel-inner" role="listbox">
 					    <div class="item active">
-					    	<img src="lib/img/2.jpg" class="img-responsive">
+					    	<img src="lib/img/new1.jpg" class="img-responsive">
 					      <div class="carousel-caption"> 
 							<h1 class="fadeInDown">Exam Preparation Simplified</h1>
 					        <p>PRACTICE ANALYZE AND IMPROVE</p>
-					        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#signupModal">Getting Started</button>
+					        <form method="post" action="checkSession.php">
+						        <button type="submit" name="gettingStarted" class="btn btn-success btn-lg">Getting Started</button>
+					       	</form>
 					      </div>
 					    </div>
 					    <div class="item" >
-					      <img src="lib/img/3.jpg" class="img-responsive" >
+					      <img src="lib/img/new2.jpg" class="img-responsive" >
 					      <div class="carousel-caption">
 							<h1 class="fadeInDown" >Exam Preparation Simplified</h1>
 					        <p>PRACTICE ANALYZE AND IMPROVE</p>
-					        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#signupModal">Getting Started</button>
+					        <form method="post" action="checkSession.php">
+						        <button type="submit" name="gettingStarted" class="btn btn-success btn-lg">Getting Started</button>
+					       	</form>
 					      </div>
 					    </div>
 					    <div class="item">
-					      <img src="lib/img/4.jpg" class="img-responsive" >
+					      <img src="lib/img/new3.jpg" class="img-responsive" >
 					      <div class="carousel-caption">
 					      	<h1 class="fadeInDown" >Exam Preparation Simplified</h1>
 					        <p>PRACTICE ANALYZE AND IMPROVE</p>
-					        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#signupModal">Getting Started</button>
+					        <form method="post" action="checkSession.php">
+						        <button type="submit" name="gettingStarted" class="btn btn-success btn-lg">Getting Started</button>
+					       	</form>
 					      </div>
 					    </div>
 					  </div>
@@ -267,17 +303,49 @@ session_start();
 
 		  <!-- Wrapper for slides -->
 
+		  <?php
+                  
+              $conn=makeconnection();
+              $sql1=mysqli_query($conn,"SELECT * FROM feedback ORDER BY RAND() LIMIT 1");
+             while($row = mysqli_fetch_array($sql1))
+             {
+                  $id1=$row['feedno'];
+                  $name1= $row['name'];
+                  $email1=$row['email'];
+                  $feedback1=$row['feedback'];
+              }
+
+               $sql2=mysqli_query($conn,"SELECT * FROM feedback ORDER BY RAND() LIMIT 1");
+             while($row = mysqli_fetch_array($sql2))
+             {
+                  $id2=$row['feedno'];
+                  $name2= $row['name'];
+                  $email2=$row['email'];
+                  $feedback2=$row['feedback'];
+              }
+
+               $sql3=mysqli_query($conn,"SELECT * FROM feedback ORDER BY RAND() LIMIT 1");
+             while($row = mysqli_fetch_array($sql3))
+             {
+                  $id3=$row['feedno'];
+                  $name3= $row['name'];
+                  $email3=$row['email'];
+                  $feedback3=$row['feedback'];
+              }
+            ?>
+
 		  <div class="carousel-inner" role="listbox">
 		    <div class="item active">
-		    <h4>"This platform is the best. I am so happy with the result!"<br><span style="font-style:normal;">Bishworaj Ghimire, Vice President, Bagmati States</span></h4>
+		    <h4><i><?php echo ucfirst($feedback1); ?></i><br><span style="font-style:normal;"><?php echo ucfirst($name1); ?></span></h4>
 		    </div>
 		    <div class="item">
-		      <h4>"One word... WOW!!"<br><span style="font-style:normal;">Shyam Bakhrel, CEO, Ghimiray Company</span></h4>
+		      <h4><i><?php echo ucfirst($feedback2); ?></i><br><span style="font-style:normal;"><?php echo ucfirst($name2); ?></span></h4>
 		    </div>
 		    <div class="item">
-		      <h4>"Could I... be any more happy with this system?"<br><span style="font-style:normal;">Sudip Maharjan, Actor, Loot 5</span></h4>
+		      <h4><i><?php echo ucfirst($feedback3); ?></i><br><span style="font-style:normal;"><?php echo ucfirst($name3); ?></span></h4>
 		    </div>
 		  </div>
+
 
 		  <!-- Left and right controls -->
 
@@ -295,6 +363,45 @@ session_start();
 <!--Feedback Carousel ends  -->
 
 <!--About Ends-->
+
+<!--Feedback -->
+
+<div class="container-fluid" id="feedback">
+	<div class="panel panel-default" style="background-color: #e6e3ee">
+
+	  <div class="panel-heading"  style="background-color: #e6e3ee"><p><h1  class="text-center">Send Feedback</h1></p></div>
+
+	  <div class="panel-body">
+	  		<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			
+			<br>
+			<form method="post" action="log.php">
+				<div class="form-group">
+				   <label for="user"><h3>Name:</h3></label>
+				   <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter your name" required>
+				</div>
+
+				<div class="form-group">
+				   <label for="email"><h3>Email address:</h3></label>
+				   <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email address" required>
+				 </div>
+
+				<div class="form-group">
+				  <label for="comment"><h3>Comment:</h3></label>
+				  <textarea class="form-control" rows="5" id="comment" name="comment" placeholder="Type what you wanna say about the system" required></textarea>
+				</div>
+
+				<button type="submit" name="btnFeedback" id="btnFeedback" style="margin-left: 42%" class="btn btn-success"><h4>Send Feed Back</h4> </button>
+			</form>
+			<br>	
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+	  </div>
+	</div>
+</div>
 
 
 

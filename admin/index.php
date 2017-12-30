@@ -1,8 +1,8 @@
 <?php
 
 include '../global.php';
-include '../connection.php'; 
-include 'admin_sql.php';
+include '../connection.php';
+session_start();
 
 ?>
 <!DOCTYPE html>
@@ -38,15 +38,15 @@ include 'admin_sql.php';
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="index.php">Dashboard</a></li>
+        <li class="active"><a href="../index.php">OES</a></li>
 <!--             <li><a href="questions.php">Questions</a></li>
         <li><a href="users.php">Users</a></li> -->
 
       </ul>
 
        <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Welcome Nischal</a></li>
-        <li><a href="login.php">Logout</a></li>
+        <li><a href="#"><?php echo $_SESSION['userName']; ?></a></li>
+        <li><a href="../logout.php">Logout</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
@@ -92,7 +92,8 @@ include 'admin_sql.php';
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
           </a>
           <a href="questions.php" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Questions <!-- <span class="badge">12</span> --></a>
-          <a href="users.php" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <!-- <span class="badge">5</span> --></a>
+          <a href="users.php" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Members <!-- <span class="badge">5</span> --></a>
+          <a href="feedback.php" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Feedback <!-- <span class="badge">5</span>--></a>
         </div>
 
 
@@ -108,22 +109,48 @@ include 'admin_sql.php';
           <div class="panel-body">
             <div class="col-md-4">
               <div class="well dash-box">
-                <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span>203</h2>
+                <h2><span class="glyphicon glyphicon-user" aria-hidden="true"></span><?php
+                  $connection=makeconnection();
+                  $sql5="SELECT * FROM user";
+                  $result5=mysqli_query($connection,$sql5);
+                  $no_of_users = mysqli_num_rows($result5);
+                  echo $no_of_users;
+                ?></h2>
                 <h4> Users </h4>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="well dash-box">
-                <h2><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>232</h2>
+                <h2><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span><?php
+                  $sql1="SELECT * FROM mbbs";
+                  $result1=mysqli_query($connection,$sql1);
+                  $no_of_mbbs = mysqli_num_rows($result1);
+                   $sql2="SELECT * FROM csit";
+                  $result2=mysqli_query($connection,$sql2);
+                  $no_of_csit = mysqli_num_rows($result2);
+                   $sql3="SELECT * FROM engineering";
+                  $result3=mysqli_query($connection,$sql3);
+                  $no_of_engg = mysqli_num_rows($result3);
+                  $sql4="SELECT * FROM word_questions";
+                  $result4=mysqli_query($connection,$sql4);
+                  $no_of_word_question = mysqli_num_rows($result4);
+                  $total_question=$no_of_engg+$no_of_csit+$no_of_mbbs+$no_of_csit+$no_of_word_question;
+                  echo $total_question;
+                ?></h2>
                 <h4> Questions </h4>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="well dash-box">
-                <h2><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>1300</h2>
-                <h4> Visitors </h4>
+                <h2><span class="glyphicon glyphicon-stats" aria-hidden="true"></span><?php
+                  $sql6="SELECT * FROM feedback";
+                  $result6=mysqli_query($connection,$sql6);
+                  $no_of_feedback = mysqli_num_rows($result6);
+                  echo "\t".$no_of_feedback;
+                ?></h2>
+                <h4> Feedbacks </h4>
               </div>
             </div>
           </div>
@@ -131,46 +158,7 @@ include 'admin_sql.php';
 
       <!--Latest Users -->
 
-<!--<div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Latest Users</h3>
-        </div>
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Joined date</th>
-            </tr>
 
-            <tr>
-              <td>Ram</td>
-              <td>Ram@gmail.com</td>
-              <td>2017/12/3</td>
-            </tr>
-            <tr>
-              <td>Ram</td>
-              <td>Ram@gmail.com</td>
-              <td>2017/12/3</td>
-            </tr>
-            <tr>
-              <td>Ram</td>
-              <td>Ram@gmail.com</td>
-              <td>2017/12/3</td>
-            </tr>
-            <tr>
-              <td>Ram</td>
-              <td>Ram@gmail.com</td>
-              <td>2017/12/3</td>
-            </tr>
-            <tr>
-              <td>Ram</td>
-              <td>Ram@gmail.com</td>
-              <td>2017/12/3</td>
-            </tr>
-          </table>
-        </div>
-      </div> -->
 
       </div>
     </div>
@@ -184,7 +172,7 @@ include 'admin_sql.php';
 <!--Modals-->
 
 <!--Add Multiple choice Question Modal-->
-    <div class="modal fade" id="addQuestions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <!--  <div class="modal fade" id="addQuestions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
         
@@ -257,15 +245,10 @@ include 'admin_sql.php';
         </form>
         </div>
       </div>
-    </div>
+    </div> -->
 
-<!-- Add User Modal-->
 
   
-
-    <script>
-         CKEDITOR.replace( 'editor2' );
-    </script>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

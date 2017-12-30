@@ -1,9 +1,9 @@
+
 <?php
 include 'connection.php'; 
 include 'global.php';
 session_start();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,16 +12,14 @@ session_start();
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<?php include 'include/lib.php'; 
-	?><!-- 
-	<link rel="stylesheet" href="<?=$base_url?>/lib/css/TimeCircles.css">
+	?>
+	<!-- <link rel="stylesheet" href="<?=$base_url?>/lib/css/TimeCircles.css">
 	<script type="text/javascript" src="<?=$base_url?>/lib/js/TimeCircles.js"></script> -->
+	<script src="jquery.min.js"></script>
 
 </head>
 
-
 <body style="background-color: #e6e3ee">
-
-
 
 <!--nav bar starts-->
 
@@ -44,39 +42,37 @@ session_start();
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
+      <ul class="nav navbar-nav ">
+         <!-- <li><a href="#home">Home</a></li>
+        <li><a href="#feature">Features</a></li>
+        <li><a href="#syllabus">Syllabus</a></li> -->
+      </ul>
 
-      <form class="navbar-form navbar-right">
-       
-          <a href="logout.php" class="btn btn-default">Logout</a>
-          <!-- <button type="button" class="btn btn-success" onclick="location.reload();">
-          		<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Refresh
-          </button> -->
-          <!-- <script type="text/javascript">
-    					document.getElementById("logout").onclick = function () {
-       						location.href = "index.php";
-    					 };
-					</script> -->
-
-      </form>
+     <form class="navbar-form navbar-right">
+       		<p style="color: white"><?php echo ucwords($_SESSION['userName']); ?>
+         	<a href="logout.php" class="btn btn-default">Logout</a>
+	</form>
      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
-
-<!-- container begins -->
-
-<!-- container ends -->
+<!-- Header starts -->
 
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
 			<h2 style="text-align: center;">Welcome our valuable users</h2>
-			<p style="text-align: center;">You can select the subject of your field from the subject list and practice</p>
-			<h3 style="text-align: center;">Feel free to learn</h3>
+			<p style="text-align: center;">Note: If you click next button without choosing answer, your answer default answer be undefined.</p>
+			<h3 style="text-align: center;">Only 10 questions available for a time.</h3>
+		</div>
+	</div>
+</div>
 
-			<div class="row">
-				<div class="col-md-3"><br>
+<!-- Container starts -->
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3"><br>
 					<div class="panel text-center">
 						  <!-- Default panel contents -->
 						  <div class="panel-heading" style="background-color: grey">
@@ -89,7 +85,7 @@ session_start();
 							        <div id="set_3" class="questions"></div>
 							        <div id="set_4" class="questions"></div>
 							        <div id="set_5" class="questions"></div>
-							        <div id="time" class="time">05:00</div>
+							        <div id="time" class="time">3:00</div>
 							    </div>
 							    <div id="click" onclick="location.reload();">
 							        <div id="spinner"></div>
@@ -139,7 +135,7 @@ session_start();
 
 						                if (--timer < 0) {
 						                    timer = 0;
-						                    document.getElementById('time').style.backgroundColor = "red";
+						                    document.getElementById('time').style.backgroundColor = "#f46c6c";
 						                    alert("Exam time Finished.");
 						                    location.href="result.php";
 						                }
@@ -149,7 +145,7 @@ session_start();
 						        window.onload = function() {
 						            setUP();
 						            showQuestions();
-						            var minutesLeft = 299, //Change to minutes you need -- counted in seconds -- minus one second 
+						            var minutesLeft = 179, //Change to minutes you need -- counted in seconds -- minus one second 
 						                display = document.querySelector('#time');
 						            startTimer(minutesLeft, display);
 						                        document.getElementById('questions').onclick = setUP;
@@ -162,31 +158,32 @@ session_start();
 					</div>
 				</div>
 
-				<div class="col-md-9">
-					<br><div class="panel panel-default">
+			<!-- Question section-->
 
-				  <div class="panel-heading">
-				  	<h4 style="margin-left: 50px;">
-				  		<p><b>Candiate Name: <?=$_SESSION['fullName']?></b></p> <br>
-				  		<p><b>Roll No.: <?=$_SESSION['userId']?></b></p>
-				  	</h4></div>
+		<div class="col-md-9">
+			<br><div class="panel panel-default">
+			  <div class="panel-heading">
+			  	<h4 style="margin-left: 50px;">
+			  		<p><b>Candiate Name: <?=$_SESSION['fullName']?></b></p> <br>
+			  		<p><b>Roll No.: <?=$_SESSION['userId']?></b></p>
+			  	</h4></div>
+			  <div class="panel-body">
+				
+				<div id="question">
+					<div class="col-md-12">
+			  			<h2>
+			  			<?php
+					  		$subject=$_POST['subject'];
+					  		$connection=makeconnection();							
+					  		
+							$sql="SELECT qid,question,ans1,ans2,ans3,ans4,correct_ans FROM $subject ORDER BY RAND() LIMIT 1";
 
-				  <div class="panel-body">
-					
-					<div id="question">
-						<div class="col-md-12">
-				  			<h2>
-					  	<?php
-					  		$sub=$_POST['subject'];
-				  			$connection=makeconnection();								
-
-							$sql="SELECT qid,question,ans1,ans2,ans3,ans4,correct_ans FROM $sub ORDER BY RAND() LIMIT 1";
-
-								$result = $connection->query($sql);
+							$result = $connection->query($sql);
 
 							if ($result->num_rows > 0) {
-							    // output data of each row
-							    while($row = $result->fetch_assoc()) {
+					   		 // output data of each row
+					    		while($row = $result->fetch_assoc()) {
+							        // echo "qid: " . $row["qid"]. " - Question: " . $row["question"]. "answer1" . $row["ans1"]."answer2".$row["ans2"]."answer3".$row["ans3"]."answer4".$row["ans4"]."correct answer".$row["correct_ans"]. "<br>"; 
 					      
 					       		 	$question=$row["question"];
 							       $answer1=$row["ans1"];
@@ -194,88 +191,99 @@ session_start();
 							       $answer3=$row["ans3"];
 							       $answer4=$row["ans4"];
 							       $correct_answer=$row["correct_ans"];
-							       echo $question ;
-						?>
+							       echo "<h2>1.".$question ."</h2>" ;
+							       $qno=1;?>
 
-						</div>
-
-						<div class="col-md-2">
-						  	<div class="radio-inline">
-							  <label><input type="radio" name="answer" id="option1" required><?=$answer1?></label>
-							</div>
-						</div>
-
-						<div class="col-md-2">
-							<div class="radio-inline text-center">
-							  <label><input type="radio" name="answer" id="option2"><?=$answer2?></label>
-							</div>
-						</div>
-						
-						<div class="col-md-2">
-							<div class="radio-inline">
-							  <label><input type="radio" name="answer" id="option3"><?=$answer3?></label>
-							</div>
-						</div>
-						
-						<div class="col-md-2">
-							<div class="radio-inline">
-							  <label><input type="radio" name="answer" id="option4"><?=$answer4?></label>
-						</div>
+							</div><?php
+							echo "<div class='row'>";
+							echo "<div class='col-md-1'></div>";
+							echo "<div class='col-md-11'>";
+						    echo "<input type='radio' name='answer' id='ans1' value='".$row['ans1']."' />".$row['ans1']."<br>";
+						    echo "<input type='radio' name='answer' id='ans2' value='".$row['ans2']."' />".$row['ans2']."<br>";
+						    echo "<input type='radio' name='answer' id='ans3' value='".$row['ans3']."' />".$row['ans3']."<br>";
+						    echo "<input type='radio' name='answer' id='ans4' value='".$row['ans4']."' />".$row['ans4']."<br>";
+						    echo "<input type='hidden' name='correct_answer' id='corr_ans' value='".$row['correct_ans']."' />";
+						    echo "<input type='hidden' name='subject' id='subject' value='".$subject."' />"."<br>";
+						    echo "<input type='hidden' name='question' id='question' value='".$row['question']."' />";
+							echo "<input type='hidden' name='qid' id='qid' value='".$row['qid']."' />";
+							echo "<input type='hidden' name='qno' id='qno' value='".$qno."' />";
+							echo "</div>";
+							echo "</div>";
+			     			?>
 					       
 					    
-					   <?php }
-					} else {
-					    echo "0 results";
-					}
+							<?php
+							 		}
+							} 
+							else 
+							{
+							    echo "0 results";
+							}
 				
-
-					  	?>
-									
-										
-			  			</h2><br><hr>
+						?>
+							
+								
+			  			</h2>
 					
 					</div>
-					</div><br><hr>
-			
-						<button id="next" type="submit" class="btn-group btn-success btn-sm btn-group-justified"  data-toggle="modal" onclick="showCustomer(this.value)" value="1">Next</button>
-							<script>
-								function showCustomer(str) {
-								var xhttp;    
-								if (str == ""){
-								  document.getElementById("txtHint").innerHTML = "";
-								  return;
-								}
-								xhttp = new XMLHttpRequest();
-								xhttp.onreadystatechange = function() {
-								if (this.readyState == 4 && this.status == 200) {
-								     document.getElementById("question").innerHTML = this.responseText;
-								    }
-								};
-								xhttp.open("GET", "question.php?q="+str, true);
-								xhttp.send();
-								}
-							</script>
-						</div>
 					</div>
-				</div>
+			
+						<button class="btn-group btn-success btn-sm btn-group-justified"  data-toggle="modal" onclick="showNextQues()" >Next </button>
+							<script>
+							function showNextQues() {
+							  var xhttp;    
+							  var user_ans=$("input:radio[name='answer']:checked").val();
+							  var corr_ans=$("input:hidden[name='correct_answer']").val();
+							  var qid=$("input:hidden[name='qid']").val();
+							   var qno=$("input:hidden[name='qno']").val();
+							  var question=$("input:hidden[name='question']").val();
+							   var subject=$("input:hidden[name='subject']").val();
+							   var result="user_ans="+user_ans+"&question="+question+"&qid="+qid+"&correct_ans="+corr_ans+"&subject="+subject+"&qno="+qno;
+							  //var result="user_ans="+user_ans+"&correct_ans="+corr_ans;
+							  xhttp = new XMLHttpRequest();
+							  xhttp.onreadystatechange = function() {
+							    if (this.readyState == 4 && this.status == 200) {
+							      document.getElementById("question").innerHTML = this.responseText;
+							    }
+							  };
+							  xhttp.open("POST", "question.php", true);
+							  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+							  xhttp.send(result);
+							}
+							</script>
+						<?php /*
+						function fisheryates(){
+							$arrayName = array('' => , );
+							
+						}*/
+						?>							
 
+					
+				
+			  </div>
 			</div>
 		</div>
 	</div>
 </div>
 
-
-<!--footer begins -->
-
-<footer class="container-fluid" id="footer" style="background-color: black">
+<!--footer -->
+<div class="container-fluid" id="footer" style="background-color: black">
 	<div class="row">
 		<div class="col-md-12">
 			<br>
-			<p class="text-center v-center" style="color: white">All rights reserved. Copyright @OES team. Team Online Examination System 2017</p><br>
+			<p class="text-center v-center" style="color: white">All rights reserved. Copyright &copy;OES team. Team Online Examination System 2017</p><br>
 		</div>
-		
+		<!-- <div class="col-md-6">
+			<a href="#" class="fa fa-facebook"></a>
+			<a href="#" class="fa fa-twitter"></a>
+		</div> -->
 	</div>
-</footer>
+</div>
 
+<?php
+			
+?>	
+
+		
 </body>
 </html>

@@ -1,5 +1,7 @@
 <?php 
-  include 'admin_sql.php'
+  include '../connection.php';
+  session_start();
+
 
 ?>
 <!DOCTYPE html>
@@ -14,8 +16,7 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/admin_style.css" rel="stylesheet">
-    <script src="https://cdn.ckeditor.com/4.7.0/standard/ckeditor.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   </head>
 
@@ -36,14 +37,14 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.php">Dashboard</a></li>
+            <li><a href="../index.php">OES</a></li>
 <!--             <li class="active"><a href="questions.php">Questions</a></li>
             <li><a href="users.php">Users</a></li> -->
           </ul>
 
            <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Welcome Nischal</a></li>
-            <li><a href="../login.php">Logout</a></li>
+            <li><a href="#"><?php echo $_SESSION['userName']; ?></a></li>
+            <li><a href="../logout.php">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -62,7 +63,8 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a type="button" data-toggle="modal" data-target="#addQuestions">Add Questions</a></li>
+                <li> <a href="addQuestion.php" class="list-group-item">Multiple Choice Questions</a></li>
+                 <li> <a href="addWordQuestion.php" class="list-group-item">Word Questions</a></li>
               </ul>
             </div>
           </div>
@@ -89,7 +91,8 @@
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
               </a>
               <a href="questions.php" class="list-group-item"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Questions <!-- <span class="badge">101</span> --></a>
-              <a href="users.php" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <!-- <span class="badge">5</span> --></a>
+              <a href="users.php" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Members <!-- <span class="badge">5</span> --></a>
+              <a href="feedback.php" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Feedback <!-- <span class="badge">5</span>--></a>
             </div>
     
 
@@ -103,32 +106,229 @@
                 <h3 class="panel-title">Questions</h3>
               </div>
               <div class="panel-body">
-                <table class="table table-striped table-hover">
-                <tr>
-                  <th>Id</th>
-                  <th style="width: 30%">Question</th>
-                  <th>Option 1</th>
-                  <th>Option 2</th>
-                  <th>Option 3</th>
-                  <th>Option 4</th>
-                  <th>Right Answer</th>
-                  <th></th>
-                </tr>
 
-                <tr>
-                  <td>1</td>
-                  <td>df</td>
-                  <td>dsad</td>
-                  <td>sds</td>
-                  <td>jdsba</td>
-                  <td>jdsba</td>
-                  <td>jdsba</td>
-                    <td><button type="button" class="btn btn-xs" data-toggle="modal" data-target="edit.phps">Edit</button>
-                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#signupModal">Delete</button></td>
-                </tr>
+                 <!--  <button type="button" id="btnCsit" class="btn btn-secondary" onclick="chooseCsit()">BSc CSIT</button>
+                    <script type="text/javascript">
+                      function chooseCsit(){
+                        document.getElementById("divCsit").style.display="block";
+                        document.getElementById("divMbbs").style.display="none";
+                        document.getElementById("divEngineering").style.display="none";
+                      }
 
-              </table>
-              </div>
+                    </script> -->
+                    <!-- <script type="text/javascript">
+                    $(document).ready(function(){
+                        $("#btnCsit").click(function(){
+                            $("divCsit").show();
+                            $("divMbbs").hide();
+                            $("divEngineering").hide();
+                        });
+                    });
+                    </script> -->
+                 <!--  <button type="button" id="btnMbbs" class="btn btn-secondary">MBBS</button>
+
+                  <button type="button" id="btnEngineering" class="btn btn-outline-secondary">Engineering</button> -->
+               
+
+
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a data-toggle="tab" href="#divCsit">BSc CSIT</a></li>
+                      <li><a data-toggle="tab" href="#divMbbs">MBBS</a></li>
+                      <li><a data-toggle="tab" href="#divEngineering">Engineering</a></li>
+                      <li><a data-toggle="tab" href="#divWord">Word Questions</a></li>
+                    </ul>
+
+                     <div class="tab-content">
+                        <div id="divCsit" class="tab-pane fade in active">
+                            <table class="table table-striped table-hover">
+                              <tr>
+                                <th>ID</th>
+                                <th>Questions</th>
+                                <th>Option 1</th>
+                                <th>Option 2</th>
+                                <th>Option 3</th>
+                                <th>Option 4</th>
+                                <th>Right Answer</th>
+                                <th>Action</th>
+                              </tr>
+
+                                 <?php            
+                                     $connection=makeconnection();
+                                    $sql="SELECT qid,question,ans1,ans2,ans3,ans4,correct_ans FROM csit";
+                                    $result = $connection->query($sql);
+                                    if ($result->num_rows > 0) 
+                                      {
+                                        while($row = $result->fetch_assoc()) 
+                                        { 
+                                          $qid=$row["qid"];                            
+                                          $question=$row["question"];
+                                          $answer1=$row["ans1"];
+                                          $answer2=$row["ans2"];
+                                          $answer3=$row["ans3"];
+                                          $answer4=$row["ans4"];
+                                          $correct_answer=$row["correct_ans"];?>
+                                        
+                                          <tr>
+                                            <td><?php echo $qid; ?></td>
+                                            <td><?php echo $question; ?></td>
+                                            <td><?php echo $answer1; ?></td>
+                                            <td><?php echo $answer2; ?></td>
+                                            <td><?php echo $answer3; ?></td>
+                                            <td><?php echo $answer4; ?></td>
+                                            <td><?php echo $correct_answer; ?></td>
+                                            <td>
+                                            <form method="POST" action="deleteOperation.php">
+                                              <button type="submit" name="deleteCsitQuestion" id="deleteCsitQuestion" class="btn btn-danger btn-xs" value="<?php echo $qid; ?>" style="float: right;">Delete</button>
+                                            </form>
+                                            </td>
+                                          </tr>
+                                  <?php
+                                        }
+                                      }
+                                  ?>
+                            </table>
+                        </div>
+                        <div id="divMbbs" class="tab-pane fade">
+                          <table class="table table-striped table-hover">
+                              <tr>
+                                <th>ID</th>
+                                <th>Questions</th>
+                                <th>Option 1</th>
+                                <th>Option 2</th>
+                                <th>Option 3</th>
+                                <th>Option 4</th>
+                                <th>Right Answer</th>
+                                <th>Action</th>
+                              </tr>
+
+                                 <?php            
+                                     $connection=makeconnection();
+                                    $sql="SELECT qid,question,ans1,ans2,ans3,ans4,correct_ans FROM mbbs";
+                                    $result = $connection->query($sql);
+                                    if ($result->num_rows > 0) 
+                                      {
+                                        while($row = $result->fetch_assoc()) 
+                                        { 
+                                          $qid=$row["qid"];                            
+                                          $question=$row["question"];
+                                          $answer1=$row["ans1"];
+                                          $answer2=$row["ans2"];
+                                          $answer3=$row["ans3"];
+                                          $answer4=$row["ans4"];
+                                          $correct_answer=$row["correct_ans"];?>
+                                        
+                                          <tr>
+                                            <td><?php echo $qid; ?></td>
+                                            <td><?php echo $question; ?></td>
+                                            <td><?php echo $answer1; ?></td>
+                                            <td><?php echo $answer2; ?></td>
+                                            <td><?php echo $answer3; ?></td>
+                                            <td><?php echo $answer4; ?></td>
+                                            <td><?php echo $correct_answer; ?></td>
+                                            <td>
+                                            <form method="POST" action="deleteOperation.php">
+                                              <button type="submit" name="deleteMbbsQuestion" id="deleteMbbsQuestion" value="<?php echo $qid; ?>" class="btn btn-danger btn-xs" style="float: right;" >Delete</button>
+                                            </form>
+                                            </td>
+                                          </tr>
+                                  <?php
+                                        }
+                                      }
+                                  ?>
+                            </table>
+                        </div>
+                        <div id="divEngineering" class="tab-pane fade">
+                          <table class="table table-striped table-hover">
+                              <tr>
+                                <th>ID</th>
+                                <th>Questions</th>
+                                <th>Option 1</th>
+                                <th>Option 2</th>
+                                <th>Option 3</th>
+                                <th>Option 4</th>
+                                <th>Right Answer</th>
+                                <th>Action</th>
+                              </tr>
+
+                                 <?php            
+                                     $connection=makeconnection();
+                                    $sql="SELECT qid,question,ans1,ans2,ans3,ans4,correct_ans FROM engineering";
+                                    $result = $connection->query($sql);
+                                    if ($result->num_rows > 0) 
+                                      {
+                                        while($row = $result->fetch_assoc()) 
+                                        { 
+                                          $qid=$row["qid"];                            
+                                          $question=$row["question"];
+                                          $answer1=$row["ans1"];
+                                          $answer2=$row["ans2"];
+                                          $answer3=$row["ans3"];
+                                          $answer4=$row["ans4"];
+                                          $correct_answer=$row["correct_ans"];?>
+                                        
+                                          <tr>
+                                            <td><?php echo $qid; ?></td>
+                                            <td><?php echo $question; ?></td>
+                                            <td><?php echo $answer1; ?></td>
+                                            <td><?php echo $answer2; ?></td>
+                                            <td><?php echo $answer3; ?></td>
+                                            <td><?php echo $answer4; ?></td>
+                                            <td><?php echo $correct_answer; ?></td>
+                                            <td>
+                                            <form method="POST" action="deleteOperation.php">
+                                              <button type="submit" name="deleteEngineeringQuestion" id="deleteEngineeringQuestion" value="<?php echo $qid; ?>" class="btn btn-danger btn-xs" style="float: right;">Delete</button>
+                                            </form>
+                                            </td>
+                                          </tr>
+                                  <?php
+                                        }
+                                      }
+                                  ?>
+                            </table>
+                        </div>
+                        <div id="divWord" class="tab-pane fade">
+                          <table class="table table-striped table-hover">
+                              <tr>
+                                <th>ID</th>
+                                <th>Questions</th>
+                                <th>Answer</th>
+                                <th>Must Include</th>
+                                <th>Action</th>
+                              </tr>
+
+                                 <?php            
+                                     $connection=makeconnection();
+                                    $sql="SELECT qno,question,answer,must_include FROM word_questions";
+                                    $result = $connection->query($sql);
+                                    if ($result->num_rows > 0) 
+                                      {
+                                        while($row = $result->fetch_assoc()) 
+                                        { 
+                                          $qid=$row["qno"];                            
+                                          $question=$row["question"];
+                                          $answer=$row["answer"];
+                                          $must_include=$row["must_include"];
+                                          ?>
+                                        
+                                          <tr>
+                                            <td><?php echo $qid; ?></td>
+                                            <td><?php echo $question; ?></td>
+                                            <td><?php echo $answer; ?></td>
+                                            <td><?php echo $must_include; ?></td>
+                                            <td>
+                                            <form method="POST" action="deleteOperation.php">
+                                              <button type="submit" name="deleteWordQuestion" id="deleteWordQuestion" value="<?php echo $qid; ?>" class="btn btn-danger btn-xs" style="float: right;" >Delete</button>
+                                            </form>
+                                            </td>
+                                          </tr>
+                                  <?php
+                                        }
+                                      }
+                                  ?>
+                            </table>
+                        </div>
+                      </div>
+                  </div>
             </div>
 
           <!--Latest Users -->
@@ -147,11 +347,11 @@
 <!--Modals-->
 
 <!--Add Question Modal-->
-    <div class="modal fade" id="addQuestions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <!--  <div class="modal fade" id="addQuestions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
         
-        <form method="POST">
+        <form method="POST" action="addQuestion.php">
 
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -189,39 +389,24 @@
               <label>Right Answer</label>
               <input type="text" class="form-control" name="correct_ans" placeholder="Add correct answer"  required>
             </div>
-
+          
             <div class="checkbox-inline myCheck" >
-              <label><input type="checkbox" value="csit" required>BSc CSIT</label>
+              <label><input type="checkbox" value="csit required">BSc CSIT</label>
             </div>
             <div class="checkbox-inline myCheck">
               <label><input type="checkbox" value="mbbs">MBBS</label>
             </div>
             <div class="checkbox-inline myCheck">
               <label><input type="checkbox" value="engineering">Engineering</label>
-            </div>
+            </div>  
           
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success" onclick="validateForm()">Save changes</button>
+            <button type="submit" class="btn btn-success">Add Questions</button>
           </div>
-            <script type="text/javascript">
-                      function validateForm() {
-                         var x=document.getElementById("myCheck").checked;
-                          if (x == true && ($_POST['ans1']==$_POST['correct_ans'] || $_POST['ans2']==$_POST['correct_ans'] || $_POST['ans3']==$_POST['correct_ans'] || $_POST['ans4']==$_POST['correct_ans']))
-                          {
-                              insertIntoDb();
-                          }
-                          else{
-                              alert("Please select the prefered subject");
-                              return false;
-                          }
-                      }
-            </script>
         </form>
         </div>
       </div>
     </div>
-
+ -->
   
 
     <script>

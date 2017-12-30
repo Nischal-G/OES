@@ -9,7 +9,7 @@ session_start();
 	<link rel="stylesheet" href="<?=$base_url?>/lib/css/login.css">
 	<title>Sign In | OES</title>
 </head>
-<body id="login">
+<body style="background-color: #d8cbcb">
 <?php //include('function.php'); ?>
 
 <!--ebackground-color: #eee;-->
@@ -46,8 +46,8 @@ session_start();
 		        <label for="inputPassword" class="sr-only">Password</label>
 		        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password">
 		        <br>
-		        <button class="btn btn-lg btn-primary btn-block" type="submit" name="btnLogin">Log In</button><br>
-				 <a href="index.php"><input type="button" class="btn btn-lg btn-primary btn-block" value="Back"></span></a>
+		        <button class="btn btn-lg btn-secondary btn-block" type="submit" name="btnLogin">Log In</button><br>
+				 <a href="index.php"><input type="button" class="btn btn-lg btn-danger btn-block" value="Go To Home"></span></a>
 		        
 	      	</form>
 	      	</div>

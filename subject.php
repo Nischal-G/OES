@@ -2,6 +2,16 @@
 include 'connection.php'; 
 include 'global.php';
 session_start();
+	if ($_SESSION['userName']==false)
+		 {
+			header("Location:" .$base_url. "index.php");
+		}
+		$deleterecords = "TRUNCATE TABLE user_answer"; //empty the table of its current records
+					  		$connection=makeconnection();
+							mysqli_query( $connection, $deleterecords );
+		$deleterecords1 = "TRUNCATE TABLE word_answer"; //empty the table of its current records
+					  		$connection=makeconnection();
+							mysqli_query( $connection, $deleterecords1 );
 ?>
 
 <!DOCTYPE html>
@@ -40,16 +50,11 @@ session_start();
       </ul> -->
 
       <form class="navbar-form navbar-right">
-       
-          <button type="button" class="btn btn-sm"  data-toggle="modal" id="logout" >LogOut</button>
-          <script type="text/javascript">
-    					document.getElementById("logout").onclick = function () {
-       							location.href= "index.php";
-    					 };
-					</script>
+       		<p style="color:#eedfdf"><?php echo ucwords($_SESSION['userName']); ?>
+         	<a href="logout.php" class="btn btn-default">Logut</a>
+	</form>
 
-      </form>
-     
+	     
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
@@ -108,7 +113,7 @@ session_start();
 					</div>
 
 					<div id="word">
-						<button type="button" class="btn-group btn-sm btn-group-justified" onclick="geSubject()"><h4>Word Questions</h4></button>
+						<button type="button" class="btn-group btn-sm btn-group-justified" onclick="window.location.href='wordquestion.php'"><h4>Word Questions</h4></button>
 							<script type="text/javascript">
 								function geSubject(){
 									document.getElementById("wordQues").style.display="";
@@ -119,22 +124,7 @@ session_start();
 							<br>
 					</div>
 
-					<div class="row" id="wordQues" style="display: none;">
-					<h4>
-						<div class="col-md-offset-5">
-							<div class="radio-inline">
-							  <label><input type="radio" name="subject" id="option1" value="mbbs" required="">Mbbs</label>
-							</div>
-
-			   				<div class="radio-inline">
-							  <label><input type="radio" name="subject" id="option1" value="csit" >Csit</label>
-							</div>
-
-			   				<div class="radio-inline">
-							  <label><input type="radio" name="subject" id="option1" value="engineering" >Engineering</label>
-							</div>
-						</div>
-					</h4>
+					
 					</div>
 					
 					<div>
@@ -152,7 +142,7 @@ session_start();
 	<div class="row">
 		<div class="col-md-12">
 			<br>
-			<p class="text-center v-center" style="color: white">All rights reserved. Copyright @OES team. Team Online Examination System 2017</p><br>
+			<p class="text-center v-center" style="color: white">All rights reserved. Copyright &copy;OES team. Team Online Examination System 2017</p><br>
 		</div>
 	</div>
 </div>

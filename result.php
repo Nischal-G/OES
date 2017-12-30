@@ -1,7 +1,7 @@
 <?php
-include 'connection.php'; 
-include 'global.php';
-session_start();
+	include 'global.php';
+	include 'connection.php';
+	session_start();
 ?>
 
 <!DOCTYPE html>
@@ -10,19 +10,11 @@ session_start();
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<?php include 'include/lib.php'; 
-	?>
-
+	<?php include 'include/lib.php'; ?>
 </head>
 
-
 <body style="background-color: #e6e3ee">
-
-
-
-<!--nav bar starts-->
-
-<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -39,74 +31,95 @@ session_start();
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-      <ul class="nav navbar-nav ">
-         <li><a href="#home">Home</a></li>
-        <li><a href="#feature">Features</a></li>
-        <li><a href="#syllabus">Syllabus</a></li>
-      </ul>
 
-      <form class="navbar-form navbar-right">
-       
-          <a href="logout.php" class="btn btn-default">Logout</a>
-          <button type="button" class="btn btn-success" onclick="location.reload();">
-          		<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>Refresh
-          </button>
-      </form>
+     <form class="navbar-form navbar-right">
+       		<p style="color: white"><?php echo ucwords($_SESSION['userName']); ?>
+         	<a href="logout.php" class="btn btn-default">Logout</a></p>
+	</form>
      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 
-<!-- container begins -->
-
-<!-- container ends -->
-
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
-			<h2 style="text-align: center;">Welcome our valuable users</h2>
-			<p style="text-align: center;">You can select the subject of your field from the subject list and practice</p>
-			<h3 style="text-align: center;">Feel free to learn</h3>
+		<h2 style="text-align: center;">Your Result</h2>
+			<br><div class="panel panel-default">
+			  
+				<?php
+					$count=0;
+					$con=makeconnection();
+					$sql="SELECT * FROM user_answer";
+					$result = mysqli_query($con,$sql);
 
-			<div class="panel">
-				  <!-- Default panel contents -->
 
-				  <div class="panel-heading" style="background-color: grey">
-			  		<h4 style="margin-left: 50px;">
-				  		<p><b>Candiate Name: <?=$_SESSION['fullName']?></b></p> <br>
-				  		<p><b>Roll No.: <?=$_SESSION['userId']?></b></p>
-				  	</h4>
-				  </div>
+					echo "<div class='row'>"
+				    . "<div class='table-responsive'>"
+				    . "<table class = 'table table-striped'>"
+				    . "
+					    <tr>
+					    <th>Qn</th>
+					    <th>Questions</th>
+					    <th>Your Answer</th>
+					    <th>Correct Answer</th>
+					    </tr>"; 
 
-				  <div class="panel-body">
+					while($row = mysqli_fetch_array($result))
+					{
+						$count++;
+						$correct_ans=$row['correct_ans'];
+						$user_ans=$row['user_ans'];
+					echo "<tr style='height: 0;'>";
+					echo "<td bgcolor='#919294'  >" . $count . "</td>";
+					echo "<td bgcolor='#a3a5a7'>" . $row['question'] . "</td>";
+					if ($correct_ans==$user_ans) {
+						echo "<td bgcolor='#7FFF7F'>" . $row['user_ans'] . "</td>";
+					}
+					else{
+						echo "<td bgcolor='#FF857F'>" . $row['user_ans'] . "</td>";
+					}
+					echo "<td bgcolor='#7FFF7F'>" . $row['correct_ans'] . "</td>";
 
-			<!-- Question 10 Begins-->
+					echo "</tr>";
+					}
+					echo "</table></div></div>";
+					$result1=mysqli_query($con,"SELECT * FROM user_answer where user_ans=correct_ans");
+					 $count = mysqli_num_rows($result1);
+					 if($count>=5){
+					 	echo "<h3 class='text-center'>Congratulations! You have Passed!</h3>";
+					 }
+					 else{
+					 	echo "<h3 class='text-center'>Sorry !!You have Failed.</h3>";
+					 }
+					?>
+					<h3 class="text-center">Marks Scored:<?php echo $count; ?></h3>
+					<div class="row">
+						<div class="col-md-offset-5">
+							<a href="subject.php"><input class="btn btn-success" type="button" name="submits" value="Choose Another Subject"></a>
+						</div>
+					</div>
+						
+	 
 
-				<div class="quesDiv" id="d9" style="display: none;">
-		   			<p><h3>result</h3></p>
-		   			<hr>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
 
-
-<!--footer begins -->
-
-<footer class="container-fluid" id="footer" style="background-color: black">
+<div class="container-fluid" id="footer" style="background-color: black">
 	<div class="row">
 		<div class="col-md-12">
 			<br>
-			<p class="text-center v-center" style="color: white">All rights reserved. Copyright @OES team. Team Online Examination System 2017</p><br>
+			<p class="text-center v-center" style="color: white">All rights reserved. Copyright &copy;OES team. Team Online Examination System 2017</p><br>
 		</div>
-		
 	</div>
-</footer>
-
+</div>
 
 </body>
+
 </html>
+
+
+	

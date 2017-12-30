@@ -1,4 +1,9 @@
+<?php
 
+  include '../connection.php';
+  session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,12 +11,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    
-    <title>Admin Area | Users  </title>
+    <title>Admin Area | Members  </title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/admin_style.css" rel="stylesheet">
-    <script src="https://cdn.ckeditor.com/4.7.0/standard/ckeditor.js"></script>
 
 
   </head>
@@ -33,14 +37,14 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.php">Dashboard</a></li>
+            <li><a href="../index.php">OES</a></li>
 <!--             <li class="active"><a href="questions.php">Questions</a></li>
-            <li><a href="users.php">Users</a></li> -->
+            <li><a href="users.php">Users</a></Wli> -->
           </ul>
 
            <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Welcome Nischal</a></li>
-            <li><a href="login.php">Logout</a></li>
+            <li><a href="#"><?php echo $_SESSION['userName']; ?></a></li>
+            <li><a href="../logout.php">Logout</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -50,7 +54,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-10">
-            <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Users <small>Manage Users </small></h1>
+            <h1><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Members <small>Manage Members </small></h1>
           </div>
           <div class="col-md-2">
             <div class="dropdown create">
@@ -59,7 +63,7 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a type="button" data-toggle="modal" data-target="#addUsers">Add Users</a></li>
+                <li><a type="button" data-toggle="modal" data-target="#addUsers">Add Members</a></li>
               </ul>
             </div>
           </div>
@@ -71,7 +75,7 @@
       <div class="container">
         <ol class="breadcrumb">
         <li><a href="index.html">Dashboard</a></li>
-          <li class="active">Users</li>
+          <li class="active">Members</li>
         </ol>
       </div>
     </section>
@@ -86,7 +90,8 @@
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Dashboard
               </a>
               <a href="questions.php" class="list-group-item"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Questions <!-- <span class="badge">101</span> --></a>
-              <a href="users.php" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users <!-- <span class="badge">5</span> --></a>
+              <a href="users.php" class="list-group-item"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Members <!-- <span class="badge">5</span> --></a>
+              <a href="feedback.php" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Feedback <!-- <span class="badge">5</span>--></a>
             </div>
     
 
@@ -97,28 +102,102 @@
 
             <div class="panel panel-default">
               <div class="panel-heading" style="background-color: grey">
-                <h3 class="panel-title">Users</h3>
+                <h3 class="panel-title">Members</h3>
               </div>
               <div class="panel-body">
-                <table class="table table-striped table-hover">
-                <tr>
-                  <th>Id</th>
-                  <th style="width: 30%">User Name</th>
-                  <th>Email</th>
-                  <th></th>
-                </tr>
 
-                <tr>
-                  <td>1</td>
-                  <td>Ram</td>
-                  <td>ram@ram.com</td>
-                  <td>
-                    <button type="button" class="btn btn-xs" data-toggle="modal" data-target="edit.php">Edit</button>
-                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#signupModal">Delete</button>
-                  </td>
-                </tr>
+                <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#user">Users</a></li>
+                  <li><a data-toggle="tab" href="#admin">Admin</a></li>
+                </ul>
 
-              </table>
+              <div class="tab-content">
+                <div id="user" class="tab-pane fade in active">
+                  <table class="table table-striped table-hover">
+                     <tr>
+                      <th>Id</th>
+                      <th style="width: 30%">Full Name</th>
+                      <th>User name</th>
+                      <th>Email</th>
+                      <th>Action</th>
+                    </tr>
+
+                    <tr>
+                    <?php
+                      $connection=makeconnection();
+                      $sql="SELECT id,fname,lname,user_name,email FROM user";
+                      $output=mysqli_query($connection,$sql);
+                     while($row = mysqli_fetch_array($output)){
+                          $id=$row['id'];
+                          $fname= $row['fname'];
+                          $lname=$row['lname'];
+                          $user_name=$row['user_name'];
+                          $email=$row['email'];
+                    
+                    echo"<tr>";
+                      echo"<td>".$id." </td>";
+                      echo"<td>".$fname."\t".$lname."</td>";
+                      echo"<td>".$user_name."</td>";
+                      echo"<td>".$email."</td>";
+                    ?>
+                      <td>
+                       <form method="POST" action="deleteOperation.php">
+                          <button type="submit" name="deleteUser" id="deleteUser" class="btn btn-danger btn-xs" value="<?php echo $id; ?>">Delete</button>
+                        </form>
+                      </td>
+                    <?php
+                     }
+                    ?>
+                    </tr>
+
+                  </table>
+                </div>
+                <div id="admin" class="tab-pane fade">
+                  <table class="table table-striped table-hover">
+                     <tr>
+                      <th>Id</th>
+                      <!-- <th style="width: 30%">Full Name</th> -->
+                      <th>User name</th>
+                      <th>Email</th>
+                      <th>Password</th>
+                      <th>Action</th>
+                    </tr>
+
+                    <tr>
+                    <?php
+                      $connection=makeconnection();
+                      $sql="SELECT id,fname,lname,user_name,password,email FROM admin";
+                      $output=mysqli_query($connection,$sql);
+                     while($row = mysqli_fetch_array($output)){
+                          $id=$row['id'];
+                          $fname= $row['fname'];
+                          $lname=$row['lname'];
+                          $user_name=$row['user_name'];
+                          $password=$row['password'];
+                          $email=$row['email'];
+                    
+                    echo"<tr>";
+                      echo"<td>".$id." </td>";
+                      // echo"<td>".$fname."\t".$lname."</td>";
+                      echo"<td>".$user_name."</td>";
+                      echo"<td>".$email."</td>";
+                      echo"<td>".$password."</td>";
+                    ?>
+                      <td>
+                       <form method="POST" action="deleteOperation.php">
+                          <button type="submit" name="deleteUser" id="deleteUser" class="btn btn-danger btn-xs" value="<?php echo $id; ?>">Delete</button>
+                        </form>
+                      </td>
+                    <?php
+                     }
+                    ?>
+                    </tr>
+
+                  </table>
+                </div>
+              </div>
+
+                
               </div>
             </div>
           </div>
@@ -137,7 +216,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
         
-        <form>
+        <form action="../log.php" method="post">
 
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -146,45 +225,44 @@
          
           <div class="modal-body">
 
+           <!--  <div class="form-group">
+              <label for="exampleInputEmail1">First name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" aria-describedby="emailHelp" placeholder="Enter first name">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
             <div class="form-group">
-              <label>Admin Name</label>
-              <input type="text" class="form-control" name="user" placeholder="Enter user name" required>
+              <label for="exampleInputEmail1">Last name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="emailHelp" placeholder="Enter last name">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div> -->
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Admin name</label>
+              <input type="text" class="form-control" id="userName" name="userName" aria-describedby="emailHelp" placeholder="Enter username">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
 
             <div class="form-group">
-              <label>Password</label>
-              <input type="password" class="form-control" name="pwd" required>
+              <label for="exampleInputEmail1"> Admin Email address</label>
+              <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
 
-          
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-success" id="memberType">Save changes</button>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Admin Password</label>
+              <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" name="btnCreateAdmin" id="btnCreateAdmin" class="btn btn-success">Create New Admin</button>
+            </div>
           </div>
-            <script type="text/javascript">
-                      function validateForm() {
-                         var x=document.getElementById("typeCheck").checked;
-                          if (x == true && ($_POST['ans1']==$_POST['correct_ans'] || $_POST['ans2']==$_POST['correct_ans'] || $_POST['ans3']==$_POST['correct_ans'] || $_POST['ans4']==$_POST['correct_ans']))
-                          {
-                              insertIntoDb();
-                          }
-                          else{
-                              alert("Please select the prefered subject");
-                              return false;
-                          }
-                      }
-            </script>
+
         </form>
         </div>
       </div>
     </div>
-
-  
-
-    <script>
-         CKEDITOR.replace( 'editor1' );
-    </script>
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

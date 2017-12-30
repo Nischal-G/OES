@@ -21,13 +21,14 @@
          <li><a href="#home">Home</a></li>
         <li><a href="#feature">Features</a></li>
         <li><a href="#syllabus">Syllabus</a></li>
+        <li><a href="#feedback">Feedback</a></li>
       </ul>
 
       <form class="navbar-form navbar-right">
        
           <button type="button" class="btn btn-sm"  data-toggle="modal" data-target="#loginModal" >Login</button>
 
-          <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#signupModal" ">SignUp</button>
+          <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#signupModal" ">Register</button>
 
       </form>
      
